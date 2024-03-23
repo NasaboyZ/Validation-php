@@ -13,20 +13,21 @@
 <body>
     <?php
     //define variable and set to empty
-    $nameErr = $emailErr = $genderErr = $$webseiteErr = "";
+    $nameErr = $emailErr = $genderErr = $webseiteErr = "";
     $name = $email = $gender = $commment = $webseite = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty($_POST["name"])){
-            $nameErr = "Pleas enter a Valid name";
+            $nameErr = 'Please enter a valid name';
         }
         else{
-            $name = text_input($_POST["name"]);
-            if(preg_match("/^[A-Za-z\-']+( [A-Za-z\-']+)*$/", $name)) {
-                $nameErr = 'Only letters and white spaces allowd';
+            $name = htmlspecialchars($_POST["name"]);
+            if(!preg_match("/^[A-Za-z\-']+( [A-Za-z\-']+)*$/", $name)) {
+                $nameErr = 'Only letters and white spaces allowed';
             }
         }
     }
+    
 
 
     if(empty($_POST["email"])){
@@ -43,29 +44,30 @@
     }
 
     if(empty($_POST["website"])){
-        $webseite = "";
+        $website = "";
     }
     else {
-        $webseite = text_input($_POST["webseite"]);
-        if(!preg_match("^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$
-        ".$webseite)){
-            $webseiteErr = "Enter Valid Webseite URL";
+        $website = test_input($_POST["website"]);
+        if(!preg_match("/^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/", $website)){
+            $websiteErr = "Enter Valid Webseite URL";
         }
     }
+    
 
-    if(empty($_POST["commit"])){
-       $commment = ""; 
+    $comment = ""; // Standardwert festlegen
+
+    if(empty($_POST["comment"])){
+   $comment = ""; 
     } 
-    else{
-        $commment = text_input($_POST["commit"]);
-
+    else {
+        $comment = test_input($_POST["comment"]);
     }
 
     if (empty($_POST["gender"])){
         $genderErr = "please enter selcetion gender";
     }
     else{
-        $gender = text_input($_POST["gender"]);
+        $gender = test_input($_POST["gender"]);
     }
 
 
